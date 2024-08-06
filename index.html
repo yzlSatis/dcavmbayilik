@@ -1,0 +1,413 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><------- DcAVM BAYİLİK -------></title>
+    <link rel="icon" type="image/png" sizes="32x32" href="https://dcxavm.vercel.app/assets/uploads/sites/1705569738_24291f48b912ae608ebb.png">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            overflow-x: hidden;
+            position: relative;
+        }
+        .container {
+            width: 80%;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .header h1 {
+            color: #fff;
+        }
+        .header h2 {
+            color: #bbb;
+        }
+        .search-bar {
+            width: 100%;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .search-bar input[type="text"] {
+            width: 50%;
+            padding: 10px;
+            font-size: 16px;
+            background-color: #555;
+            border: none;
+            border-radius: 20px;
+            color: #fff;
+        }
+        .service-section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+        .service-section div {
+            flex: 1;
+            margin: 10px;
+            padding: 20px;
+            background-color: #444;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .listings {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+        .listing {
+            min-width: 200px;
+            max-width: 300px;
+            margin: 20px;
+            background-color: #444;
+            padding: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            flex: 1 1 200px;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            border-radius: 15px; /* Köşeleri yuvarlatır */
+        }
+        .listing img {
+            width: 100%;
+            height: auto;
+            border-radius: 15px 15px 0 0; /* Üst köşeleri yuvarlatır */
+        }
+        .listing:hover {
+            transform: scale(1.05);
+            z-index: 10;
+        }
+        .shopier-button {
+            display: inline-flex;
+            align-items: center;
+            background-color: #0d348f;
+            color: #fff;
+            padding: 10px 15px;
+            text-align: center;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: transform 0.3s ease;
+            font-size: 16px;
+            text-decoration: none;
+        }
+        .shopier-button img {
+            width: 20px;
+            height: auto;
+            margin-right: 8px;
+        }
+        .shopier-button:hover {
+            transform: scale(1.1);
+        }
+        .side-menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 200px;
+            height: 100%;
+            background-color: #222;
+            color: #fff;
+            transform: translateX(-100%);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+            overflow-y: auto;
+        }
+        .side-menu.active {
+            transform: translateX(0);
+        }
+        .side-menu .logo-container {
+            text-align: center;
+            padding: 20px 0;
+        }
+        .side-menu .logo-container img {
+            max-width: 100%;
+            height: auto;
+        }
+        .side-menu a {
+            color: #fff;
+            display: block;
+            padding: 10px;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+        .side-menu a:hover {
+            background-color: #444;
+        }
+        .menu-button {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 1001;
+        }
+        .blurred {
+            filter: blur(5px);
+        }
+        .no-results {
+            text-align: center;
+            color: #bbb;
+            font-size: 18px;
+            margin: 20px;
+        }
+
+        /* Popup styles */
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1002;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .popup {
+            background-color: #666;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            position: relative;
+            width: 300px;
+        }
+        .popup .title {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .popup .subtitle {
+            color: #ddd;
+            margin-bottom: 20px;
+        }
+        .popup .privacy-box {
+            background-color: #444;
+            border-radius: 10px;
+            padding: 10px;
+            margin: 0 auto;
+            max-width: 260px;
+        }
+        .popup .privacy-box h3 {
+            color: #fff;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+        .popup .privacy-box p {
+            color: #bbb;
+            font-size: 14px;
+        }
+        .popup .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: #8a1b1b;
+            border: none;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 18px;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+        }
+        .discord-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #7289da;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            transition: background-color 0.3s ease;
+        }
+
+        .discord-button img {
+            width: 30px;
+            height: auto;
+        }
+
+        .discord-button:hover {
+            background-color: #5b6eae;
+        }
+    </style>
+</head>
+<body>
+    <div class="side-menu" id="sideMenu">
+        <div class="logo-container">
+            <img src="https://dcxavm.vercel.app/assets/uploads/sites/1705569738_24291f48b912ae608ebb.png" alt="DcAVM Logo">
+            <h1>Servisler</h1>
+        </div>
+        <div class="menu-separator"></div>
+        <a href="#" onclick="filterListings('instagram')">🛒 Instagram Servisleri</a>
+        <a href="#" onclick="filterListings('discord')">🛒 Discord Servisleri</a>
+        <a href="https://dc-avm.vercel.app/terms.html" target="_blank">🏆 Güvence</a>
+    </div>
+    <div class="menu-button" onclick="toggleMenu()">☰</div>
+    <div class="container" id="mainContent">
+        <div class="header">
+            <h1>DcAVM BAYİLİK</h1>
+            <h2>-Yazılım Servisleri-</h2>
+        </div>
+        <div class="search-bar">
+            <input type="text" placeholder=" 🔎                                                                     İLAN ARAYIN" oninput="searchListings(this.value)">
+        </div>
+        <div class="service-section">
+            <div onclick="filterListings('discord')">DİSCORD SERVİSLERİ</div>
+            <div onclick="filterListings('instagram')">İNSTAGRAM SERVİSLERİ</div>
+        </div>
+        <div class="listings" id="listings">
+            <!-- Listings will be injected here -->
+        </div>
+        <div class="no-results" id="noResults" style="display: none;">
+            İlan Yok Veya Stok Tükenmiş.
+        </div>
+    </div>
+
+    <!-- Popup -->
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup">
+            <button class="close-btn" onclick="closePopup()">✖</button>
+            <div class="title">Hoş Geldin !
+
+ </div>
+            <div class="subtitle">www.dcavm.shop Gizlilik Hakları.</div>
+            <div class="privacy-box">
+                <h3>GİZLİLİK</h3>
+                <p>Hiç Bir veri SHOPİER / İTEM SATIŞ FATURLANDIRILMA dışında kaydedilmez</p>
+            </div>
+        </div>
+    </div>
+    <div class="discord-button" onclick="window.open('https://www.discord.com', '_blank')">
+        <img src="https://media.discordapp.net/attachments/1248618378583609497/1270454965218971729/image.png?ex=66b3c2e3&is=66b27163&hm=a446d95ff757bacd4b5c41eeabad1cf07250d3aad4d82d211bcc6111ffa2fb44&=&format=webp&quality=lossless" alt="Discord Logo">
+    </div>
+    <script>
+        function toggleMenu() {
+            document.getElementById('sideMenu').classList.toggle('active');
+            document.getElementById('mainContent').classList.toggle('blurred');
+        }
+
+        function filterListings(service) {
+            const listings = document.querySelectorAll('.listing');
+            let hasVisibleListing = false;
+            listings.forEach(listing => {
+                if (listing.dataset.service.includes(service)) {
+                    listing.style.display = 'block';
+                    hasVisibleListing = true;
+                } else {
+                    listing.style.display = 'none';
+                }
+            });
+            document.getElementById('noResults').style.display = hasVisibleListing ? 'none' : 'block';
+        }
+
+        function searchListings(query) {
+            const listings = document.querySelectorAll('.listing');
+            let hasVisibleListing = false;
+            listings.forEach(listing => {
+                if (listing.dataset.name.toLowerCase().includes(query.toLowerCase())) {
+                    listing.style.display = 'block';
+                    hasVisibleListing = true;
+                } else {
+                    listing.style.display = 'none';
+                }
+            });
+            document.getElementById('noResults').style.display = hasVisibleListing ? 'none' : 'block';
+        }
+
+        function addListing(name, image, description, price, service, url) {
+            const listingContainer = document.getElementById('listings');
+            const listing = document.createElement('div');
+            listing.className = 'listing';
+            listing.dataset.name = name;
+            listing.dataset.service = service;
+            listing.onclick = () => window.open(url, '_blank');
+            listing.innerHTML = `
+                <img src="${image}" alt="${name}">
+                <h3>${name}</h3>
+                <p>${description}</p>
+                <p>${price} TL</p>
+                <a class="shopier-button" href="${url}" target="_blank">
+                    <img src="https://www.itemsatis.com/dist/img/favicon.ico" alt="Shopier Logo"> İTEM SATIŞ
+                </a>
+            `;
+            listingContainer.appendChild(listing);
+        }
+
+        // Örnek ilanlar
+        addListing('⭐️{WEB PANELLİ} OWO HUNT BOT / LISANSLI ⭐️', 'https://cdn.itemsatis.com/uploads/post_images/web-panelli-owo-hunt-bot-lisansli-82654868.png?width=555&height=380', '', '400', 'discord', 'https://www.itemsatis.com/discord/web-panelli-owo-hunt-bot-lisansli-2578228.html');
+        addListing('⭐️{SELF} ONLINER / V9 API / LISANSLI ⭐️', 'https://cdn.itemsatis.com/uploads/post_images/self-onliner-v9-api-lisansli-25675484.png?width=555&height=380', '', '80', 'discord', 'https://www.itemsatis.com/discord/self-onliner-v9-api-lisansli-2623505.html');
+        addListing('⭐️ {VİDEO} OWO XP {MULTI TOKEN} / LISANSLI ⭐️', 'https://cdn.itemsatis.com/uploads/post_images/video-owo-xp-multi-token-lisansli-76943214.png?width=555&height=380', '', '20', 'discord', 'https://www.itemsatis.com/discord/video-owo-xp-multi-token-lisansli-2473593.html');
+        addListing('⭐️ MESSAGE CLAIMER {MULTI-TOKEN} ⭐️', 'https://cdn.itemsatis.com/uploads/post_images/message-bot-multi-token-videolu-2390352.png?width=555&height=380', '', '300', 'discord', 'https://www.itemsatis.com/discord/message-claimer-multi-token-videolu-2483803.html');
+        addListing('⭐️ DCAVM TOOLS V2 / LİSANSLI / Garantili⭐️   ', 'https://cdn.itemsatis.com/uploads/post_images/dcavm-tools-v2-lisansli-81065701.png?width=555&height=380', '', '50', 'discord', 'https://www.itemsatis.com/discord/dcavm-tools-v2-lisansli-2265733.html');
+        addListing('⭐️SUNUCU AKTIFLESTIRICI V2 / LISANSLI / PYGUI⭐️', 'https://cdn.itemsatis.com/uploads/post_images/sunucu-aktiflestirici-v2-lisansli-pygui-46247148.png?width=555&height=380', '', '70,99', 'discord', 'https://www.itemsatis.com/discord/sunucu-aktiflestirici-v2-lisansli-pygui-1957558.html');
+
+        // Snow effect
+        const snowContainer = document.createElement('div');
+        snowContainer.style.position = 'fixed';
+        snowContainer.style.top = '0';
+        snowContainer.style.left = '0';
+        snowContainer.style.width = '100%';
+        snowContainer.style.height = '100%';
+        snowContainer.style.pointerEvents = 'none';
+        snowContainer.style.zIndex = '9999';
+        document.body.appendChild(snowContainer);
+
+        function createSnowflake() {
+            const snowflake = document.createElement('div');
+            snowflake.style.position = 'absolute';
+            snowflake.style.top = '-10px';
+            snowflake.style.left = `${Math.random() * 100}%`;
+            snowflake.style.width = '10px';
+            snowflake.style.height = '10px';
+            snowflake.style.backgroundColor = '#fff';
+            snowflake.style.borderRadius = '50%';
+            snowflake.style.opacity = Math.random();
+            snowflake.style.transform = `translateY(${Math.random() * 10}px)`;
+            snowflake.style.transition = `transform ${Math.random() * 5 + 2}s linear`;
+
+            snowflake.addEventListener('transitionend', () => {
+                snowflake.remove();
+            });
+
+            snowContainer.appendChild(snowflake);
+
+            setTimeout(() => {
+                snowflake.style.transform = `translateY(${window.innerHeight}px)`;
+            }, 0);
+        }
+
+        setInterval(createSnowflake, 100);
+
+        // Popup functionality
+        function closePopup() {
+            document.getElementById('popupOverlay').classList.remove('active');
+            document.getElementById('mainContent').classList.remove('blurred');
+        }
+
+        window.onload = () => {
+            document.getElementById('popupOverlay').classList.add('active');
+            document.getElementById('mainContent').classList.add('blurred');
+        };
+    </script>
+</body>
+</html>
