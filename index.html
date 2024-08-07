@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -211,18 +210,20 @@
             color: #bbb;
             font-size: 14px;
         }
-        .popup .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background-color: #8a1b1b;
-            border: none;
-            border-radius: 50%;
+        .popup .anladim-btn {
+            display: inline-block;
+            background-color: #28a745; /* Arka plan yeşil */
             color: #fff;
-            font-size: 18px;
-            width: 30px;
-            height: 30px;
+            padding: 10px 20px;
+            border-radius: 20px;
+            text-decoration: none;
+            margin-top: 20px;
             cursor: pointer;
+            transition: transform 0.3s ease;
+            font-size: 16px;
+        }
+        .popup .anladim-btn:hover {
+            transform: scale(1.1);
         }
         .discord-button {
             position: fixed;
@@ -276,7 +277,9 @@
             <div onclick="filterListings('instagram')">İNSTAGRAM SERVİSLERİ</div>
         </div>
         <div class="listings" id="listings">
-            <!-- Listings will be injected here -->
+            <!-- Listings
+
+ will be injected here -->
         </div>
         <div class="no-results" id="noResults" style="display: none;">
             İlan Yok Veya Stok Tükenmiş.
@@ -286,15 +289,13 @@
     <!-- Popup -->
     <div class="popup-overlay" id="popupOverlay">
         <div class="popup">
-            <button class="close-btn" onclick="closePopup()">✖</button>
-            <div class="title">Hoş Geldin !
-
- </div>
+            <div class="title">Hoş Geldin !</div>
             <div class="subtitle">www.dcavm.shop Gizlilik Hakları.</div>
             <div class="privacy-box">
                 <h3>GİZLİLİK</h3>
                 <p>Hiç Bir veri SHOPİER / İTEM SATIŞ FATURLANDIRILMA dışında kaydedilmez</p>
             </div>
+            <a class="anladim-btn" onclick="closePopup()">Anladım</a>
         </div>
     </div>
     <div class="discord-button" onclick="window.open('https://www.discord.com', '_blank')">
